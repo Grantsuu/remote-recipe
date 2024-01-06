@@ -5,10 +5,14 @@ const App = () => {
     const [recipes, setRecipes] = React.useState([]);
 
     useEffect(() => {
-        fetch('localhost:8080/api/recipes')
+        fetch('http://localhost:8080/api/recipes')
             .then(response => response.json())
             .then(data => setRecipes(data.recipes));
     }, []);
+
+    useEffect(()=> {
+        console.log(recipes)
+    }, [recipes])
 
     return (
         <div id="app">
@@ -16,7 +20,7 @@ const App = () => {
             <div>
                 {recipes.map((recipe: any) => (
                     <div key={recipe.id}>
-                        <h2>{recipe.title}</h2>
+                        <h2>{recipe.name}</h2>
                         <p>{recipe.description}</p>
                     </div>
                 ))}
