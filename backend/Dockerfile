@@ -11,11 +11,12 @@ COPY go.mod go.sum ./
 RUN go mod download
 
 # Copy the source code into the container
-COPY . .
-RUN go get  -t -v ./...
+COPY *.go ./
 
 # Build the Go application
 RUN go build -o app
+
+EXPOSE 8080
 
 # Set the entry point for the container
 CMD ["./app"]
