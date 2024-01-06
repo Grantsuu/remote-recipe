@@ -5,14 +5,14 @@ FROM golang:1.16-alpine
 WORKDIR /app
 
 # Copy the Go module files
-# COPY go.mod go.sum ./
-COPY go.mod ./
+COPY go.mod go.sum ./
 
 # Download and install the Go dependencies
 RUN go mod download
 
 # Copy the source code into the container
 COPY . .
+RUN go get  -t -v ./...
 
 # Build the Go application
 RUN go build -o app
