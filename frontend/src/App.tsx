@@ -1,26 +1,28 @@
-import React from 'react';
-import logo from './logo.svg';
+import React, { useEffect } from 'react';
 import './App.css';
 
-function App() {
-  return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.tsx</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
-  );
+const App = () => {
+    const [recipes, setRecipes] = React.useState([]);
+
+    useEffect(() => {
+        fetch('localhost:8080/api/recipes')
+            .then(response => response.json())
+            .then(data => setRecipes(data.recipes));
+    }, []);
+
+    return (
+        <div id="app">
+            <h1>Recipes</h1>
+            <div>
+                {recipes.map((recipe: any) => (
+                    <div key={recipe.id}>
+                        <h2>{recipe.title}</h2>
+                        <p>{recipe.description}</p>
+                    </div>
+                ))}
+            </div>
+        </div>
+    );
 }
 
 export default App;

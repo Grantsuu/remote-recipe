@@ -1,6 +1,8 @@
 package main
 
 import (
+	"net/http"
+
 	"github.com/gin-contrib/cors"
 	"github.com/gin-gonic/gin"
 	"gorm.io/driver/postgres"
@@ -8,13 +10,15 @@ import (
 )
 
 type Recipe struct {
-	ID     uint   `gorm:"primaryKey"`
-	Name   string `gorm:"not null"`
-	Author string `gorm:"not null"`
+	ID          uint   `gorm:"primaryKey"`
+	Name        string `gorm:"not null"`
+	Description string
+	Ingredients string
+	Directions  string
 }
 
 func main() {
-	dsn := "host=localhost user=postgres password=your_password dbname=your_database port=5432 sslmode=disable"
+	dsn := "host=database user=myuser password=mypassword dbname=postgres port=5432 sslmode=disable"
 	db, err := gorm.Open(postgres.Open(dsn), &gorm.Config{})
 	if err != nil {
 		panic("Failed to connect to database")
@@ -26,10 +30,10 @@ func main() {
 	r := gin.Default()
 	r.Use(cors.Default())
 
-	r.GET("/recipes", func(c *gin.Context) {
+	r.GET("/api/recipes", func(c *gin.Context) {
 		var recipes []Recipe
 		db.Find(&recipes)
-		c.JSON(200, recipes)
+		c.JSON(http.StatusOK, recipes)
 	})
 
 	r.Run(":8080")
