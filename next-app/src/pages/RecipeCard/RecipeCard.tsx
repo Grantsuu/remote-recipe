@@ -2,11 +2,6 @@ const RecipeCard = () => {
   return (
     <div className="container mt-4">
       <div className="card">
-        <img
-          src="your-image-url.jpg"
-          className="card-img-top"
-          alt="Recipe Image"
-        />
         <div className="card-body">
           <h5 className="card-title">Recipe Title</h5>
           <p className="card-text">

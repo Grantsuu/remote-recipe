@@ -26,8 +26,6 @@ const Home = () => {
             .then(data => setRecipes(data))
             .catch(err => console.error(err))
     }, [])
-    
-    console.log(recipes)
 
     return (
         <div className={styles.container}>
@@ -44,7 +42,6 @@ const Home = () => {
                 <p className={styles.description}>
                     A simple <i>Next.js</i> app to display recipes, hosted on a remote virtual machine.
                 </p>
-                <button type="button" className="btn btn-primary">Base class</button>
                 <RecipeCard />
                 {recipes.map((recipe, index) => (
                     <div key={index}>
