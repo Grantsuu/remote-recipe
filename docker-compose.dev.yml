@@ -25,7 +25,29 @@ services:
       - my_network
 
   # Add more containers below (nginx, postgres, etc.)
+  backend:
+    build:
+      context: ./backend
+      dockerfile: Dockerfile
+    ports:
+      - 8080:8080
+    depends_on:
+      - database
 
+  database:
+    image: postgres
+    ports:
+      - 5432:5432
+    environment:
+      POSTGRES_USER: myuser
+      POSTGRES_PASSWORD: mypassword
+      POSTGRES_DB: postgres
+    volumes:
+      - db_data:/var/lib/postgresql/data
+
+volumes:
+  db_data:
+  
 # Define a network, which allows containers to communicate
 # with each other, by using their container name as a hostname
 networks:
