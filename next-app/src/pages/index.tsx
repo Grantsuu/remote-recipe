@@ -2,8 +2,9 @@ import React, { useEffect, useState } from 'react';
 import Head from 'next/head'
 import Image from 'next/image'
 import styles from '../styles/Home.module.css'
+import RecipeCard from '@pages/RecipeCard/RecipeCard'
 
-export default function Home() {
+const Home = () => {
 
     const [recipes, setRecipes] = useState([])
 
@@ -44,6 +45,7 @@ export default function Home() {
                     A simple <i>Next.js</i> app to display recipes, hosted on a remote virtual machine.
                 </p>
                 <button type="button" className="btn btn-primary">Base class</button>
+                <RecipeCard />
                 {recipes.map((recipe, index) => (
                     <div key={index}>
                         <h2>{recipe.Name}</h2>
@@ -69,3 +71,5 @@ export default function Home() {
         </div>
     )
 }
+
+export default Home
