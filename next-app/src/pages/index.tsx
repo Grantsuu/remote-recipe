@@ -47,9 +47,14 @@ const Home = () => {
                 </div>
                 {/* Recipe Content */}
                 <div className="container-fluid">
-                    {recipes.map((recipe, index) => (
-                        <RecipeCard key={index} recipe={recipe} />
-                    ))}
+                    <div className="container-fluid d-flex justify-content-center">
+                        <button className="btn btn-success mb-2">Add new recipe</button>
+                    </div>
+                    <div className="container-fluid w-75 p-0">
+                        {recipes.map((recipe, index) => (
+                            <RecipeCard key={index} recipe={recipe} />
+                        ))}
+                    </div>
                 </div>
             </div>
 

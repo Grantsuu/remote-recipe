@@ -1,4 +1,7 @@
 import React, { useState } from "react";
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
+import { IconProp } from '@fortawesome/fontawesome-svg-core'
+import { faPenToSquare, faXmark } from '@fortawesome/free-solid-svg-icons'
 
 interface RecipeCardProps {
     recipe: {
@@ -31,11 +34,18 @@ const RecipeCard: React.FC<RecipeCardProps> = ({ recipe }) => {
     }
 
     return (
-        <div className="container w-75 mb-4">
+        <div className="container-fluid mb-4">
             <div className="card bg-light">
-                <div className="card-header pt-3 d-flex justify-content-between">
-                    <h5>{recipe.Name}</h5>
-                    <div className="ml-auto">X</div>
+                <div className="card-header d-flex justify-content-between align-items-center">
+                    <h4 className="my-0">{recipe.Name}</h4>
+                    <div className="ml-auto">
+                        <button type="button" className="btn btn-lg">
+                            <FontAwesomeIcon icon={faPenToSquare as IconProp} />
+                        </button>
+                        <button type="button" className="btn btn-lg">
+                            <FontAwesomeIcon icon={faXmark as IconProp} />
+                        </button>
+                    </div>
                 </div>
                 <div className="card-body">
                     <p className="card-text">
@@ -45,7 +55,7 @@ const RecipeCard: React.FC<RecipeCardProps> = ({ recipe }) => {
                         <h6>Ingredients:</h6>
                         <ul className="list-group">
                             {ingredientsArray.map((ingredient, index) => (
-                                <IngredientCheckbox ingredient={ingredient} index={index}/>
+                                <IngredientCheckbox ingredient={ingredient} index={index} />
                             ))}
                         </ul>
                     </div>
