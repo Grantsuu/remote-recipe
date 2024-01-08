@@ -26,8 +26,6 @@ const Home = () => {
             .then(data => setRecipes(data))
             .catch(err => console.error(err))
     }, [])
-
-    console.log(recipes[0])
     return (
         <div className={styles.container}>
             <Head>
@@ -35,24 +33,6 @@ const Home = () => {
                 <title>Create Next app</title>
                 <link rel="icon" href="/favicon.ico" />
             </Head>
-
-            {/* <main className={styles.main}>
-                <h1 className={styles.title}>
-                    Project Remote-Recipes
-                </h1>
-                <p className={styles.description}>
-                    A simple <i>Next.js</i> app to display recipes, hosted on a remote virtual machine.
-                </p>
-                <RecipeCard />
-                {recipes.map((recipe, index) => (
-                    <div key={index}>
-                        <h2>{recipe.Name}</h2>
-                        <p>{recipe.Description}</p>
-                        <p>{recipe.Ingredients}</p>
-                        <p>{recipe.Directions}</p>
-                    </div>
-                ))}
-            </main> */}
             
             {/* Main container */}
             <div className="container">
