@@ -1,46 +1,50 @@
-const RecipeCard = () => {
-  return (
-    <div className="container mt-4">
-      <div className="card">
-        <div className="card-body">
-          <h5 className="card-title">Recipe Title</h5>
-          <p className="card-text">
-            Recipe Description goes here. A brief overview of the
-            deliciousness!
-          </p>
+import React from "react";
 
-          <div className="mb-3">
-            <h6>Ingredients:</h6>
-            <ul className="list-group">
-              <li className="list-group-item">Ingredient 1</li>
-              <li className="list-group-item">Ingredient 2</li>
-              <li className="list-group-item">Ingredient 3</li>
-              {/* Add more ingredients as needed */}
-            </ul>
-          </div>
+interface RecipeCardProps {
+    recipe: {
+        Name: string;
+        Description: string;
+        Ingredients: string;
+        Directions: string;
+    };
+}
 
-          <div>
-            <h6>Directions:</h6>
-            <ol className="list-group">
-              <li className="list-group-item">
-                Step 1: Lorem ipsum dolor sit amet, consectetur adipiscing
-                elit.
-              </li>
-              <li className="list-group-item">
-                Step 2: Sed do eiusmod tempor incididunt ut labore et dolore
-                magna aliqua.
-              </li>
-              <li className="list-group-item">
-                Step 3: Ut enim ad minim veniam, quis nostrud exercitation
-                ullamco laboris.
-              </li>
-              {/* Add more steps as needed */}
-            </ol>
-          </div>
+const RecipeCard: React.FC<RecipeCardProps> = ({ recipe }) => {
+    const ingredientsArray: string[] = recipe.Ingredients.split(",");
+    const directionsArray: string[] = recipe.Directions.split(/\d+\.\s/).filter(step => step.trim() !== "");
+    return (
+        <div className="container w-75 mb-4">
+            <div className="card bg-light">
+            <div className="card-header pt-3"><h5>{recipe.Name}</h5></div>
+                <div className="card-body">
+                    <p className="card-text">
+                        {recipe.Description}.
+                    </p>
+                    <div className="mb-3">
+                        <h6>Ingredients:</h6>
+                        <ul className="list-group">
+                            {ingredientsArray.map((ingredient, index) => (
+                                <li key={index} className="list-group-item">
+                                    {ingredient}
+                                </li>
+                            ))}
+                        </ul>
+                    </div>
+
+                    <div>
+                        <h6>Directions:</h6>
+                        <ol className="list-group list-group-numbered">
+                            {directionsArray.map((step, index) => (
+                                <li key={index} className="list-group-item">
+                                    {step}
+                                </li>
+                            ))}
+                        </ol>
+                    </div>
+                </div>
+            </div>
         </div>
-      </div>
-    </div>
-  );
+    );
 };
 
 export default RecipeCard;

@@ -27,6 +27,7 @@ const Home = () => {
             .catch(err => console.error(err))
     }, [])
 
+    console.log(recipes[0])
     return (
         <div className={styles.container}>
             <Head>
@@ -35,7 +36,7 @@ const Home = () => {
                 <link rel="icon" href="/favicon.ico" />
             </Head>
 
-            <main className={styles.main}>
+            {/* <main className={styles.main}>
                 <h1 className={styles.title}>
                     Project Remote-Recipes
                 </h1>
@@ -51,7 +52,26 @@ const Home = () => {
                         <p>{recipe.Directions}</p>
                     </div>
                 ))}
-            </main>
+            </main> */}
+            
+            {/* Main container */}
+            <div className="container">
+                {/* Title */}
+                <div className="text-center">
+                    <h1 className="display-3">
+                        Project Remote-Recipes
+                    </h1>
+                    <p>
+                        A simple <i>Next.js</i> app to display recipes, hosted on a remote virtual machine.
+                    </p>
+                </div>
+                {/* Recipe Content */}
+                <div className="container-fluid">
+                    {recipes.map((recipe, index) => (
+                        <RecipeCard key={index} recipe={recipe} />
+                    ))}
+                </div>
+            </div>
 
             <footer className={styles.footer}>
                 <a
