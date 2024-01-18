@@ -55,7 +55,7 @@ const RecipeCard: React.FC<RecipeCardProps> = ({ recipe }) => {
                         <h6>Ingredients:</h6>
                         <ul className="list-group">
                             {ingredientsArray.map((ingredient, index) => (
-                                <IngredientCheckbox ingredient={ingredient} index={index} />
+                                <IngredientCheckbox key={index} ingredient={ingredient} index={index}/>
                             ))}
                         </ul>
                     </div>

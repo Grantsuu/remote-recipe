@@ -1,15 +1,22 @@
 import React, { useEffect, useState } from 'react';
+import type { GetServerSideProps } from "next";
 import Head from 'next/head'
 import Image from 'next/image'
 import styles from '../styles/Home.module.css'
 import RecipeCard from '@pages/RecipeCard/RecipeCard'
 
-const Home = () => {
+export const getServerSideProps = (context) => {
+    const host = context.req.headers.host?.split(':')[0] || 'localhost'
+    return {
+        props: { host }
+    }
+}
 
+const Home = ({ host }) => {
     const [recipes, setRecipes] = useState([])
 
     async function getData() {
-        const res = await fetch('http://localhost:8080/api/recipes')
+        const res = await fetch('http://' + host + ':8080/api/recipes')
         // The return value is *not* serialized
         // You can return Date, Map, Set, etc.
     
@@ -26,6 +33,7 @@ const Home = () => {
             .then(data => setRecipes(data))
             .catch(err => console.error(err))
     }, [])
+
     return (
         <div className={styles.container}>
             <Head>
@@ -48,7 +56,7 @@ const Home = () => {
                 {/* Recipe Content */}
                 <div className="container-fluid">
                     <div className="container-fluid d-flex justify-content-center">
-                        <button className="btn btn-success mb-2">Add new recipe</button>
+                        <button className="btn btn-success mb-3">Add new recipe</button>
                     </div>
                     <div className="container-fluid w-75 p-0">
                         {recipes.map((recipe, index) => (

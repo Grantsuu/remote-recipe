@@ -16,3 +16,7 @@ This file contains a list of commands I found useful while developing this appli
     # Up dev
     docker compose -f docker-compose.dev.yml up
     ```
+- Stop all running docker containers
+    ```
+    docker stop $(docker ps -a -q)
+    ```
