@@ -4,6 +4,7 @@ import { IconProp } from '@fortawesome/fontawesome-svg-core'
 import { faPenToSquare, faXmark } from '@fortawesome/free-solid-svg-icons'
 
 interface RecipeCardProps {
+    host: string;
     recipe: {
         Id: number;
         Name: string;
@@ -13,7 +14,7 @@ interface RecipeCardProps {
     };
 }
 
-const RecipeCard: React.FC<RecipeCardProps> = ({ recipe }) => {
+const RecipeCard: React.FC<RecipeCardProps> = ({ host, recipe }) => {
     const ingredientsArray: string[] = recipe.Ingredients.split(",");
     const directionsArray: string[] = recipe.Directions.split(/\d+\.\s/).filter(step => step.trim() !== "");
 
@@ -34,44 +35,46 @@ const RecipeCard: React.FC<RecipeCardProps> = ({ recipe }) => {
     }
 
     return (
-        <div className="container-fluid mb-4">
-            <div className="card bg-light">
-                <div className="card-header d-flex justify-content-between align-items-center">
-                    <h4 className="my-0">{recipe.Name}</h4>
-                    <div className="ml-auto">
-                        <button type="button" className="btn btn-lg">
-                            <FontAwesomeIcon icon={faPenToSquare as IconProp} />
-                        </button>
-                        <button type="button" className="btn btn-lg">
-                            <FontAwesomeIcon icon={faXmark as IconProp} />
-                        </button>
+        <>
+            <div className="container-fluid mb-4">
+                <div className="card bg-light">
+                    <div className="card-header d-flex justify-content-between align-items-center">
+                        <h4 className="my-0">{recipe.Name}</h4>
+                        <div className="ml-auto">
+                            <button type="button" className="btn btn-lg">
+                                <FontAwesomeIcon icon={faPenToSquare as IconProp} />
+                            </button>
+                            <button type="button" className="btn btn-lg" data-bs-toggle="modal" data-bs-target="#deleteRecipeModal">
+                                <FontAwesomeIcon icon={faXmark as IconProp} />
+                            </button>
+                        </div>
                     </div>
-                </div>
-                <div className="card-body">
-                    <p className="card-text">
-                        {recipe.Description}.
-                    </p>
-                    <div className="mb-3">
-                        <h6>Ingredients:</h6>
-                        <ul className="list-group">
-                            {ingredientsArray.map((ingredient, index) => (
-                                <IngredientCheckbox key={index} ingredient={ingredient} index={index}/>
-                            ))}
-                        </ul>
-                    </div>
-                    <div>
-                        <h6>Directions:</h6>
-                        <ol className="list-group list-group-numbered">
-                            {directionsArray.map((step, index) => (
-                                <li key={index} className="list-group-item">
-                                    {step}
-                                </li>
-                            ))}
-                        </ol>
+                    <div className="card-body">
+                        <p className="card-text">
+                            {recipe.Description}.
+                        </p>
+                        <div className="mb-3">
+                            <h6>Ingredients:</h6>
+                            <ul className="list-group">
+                                {ingredientsArray.map((ingredient, index) => (
+                                    <IngredientCheckbox key={index} ingredient={ingredient} index={index} />
+                                ))}
+                            </ul>
+                        </div>
+                        <div>
+                            <h6>Directions:</h6>
+                            <ol className="list-group list-group-numbered">
+                                {directionsArray.map((step, index) => (
+                                    <li key={index} className="list-group-item">
+                                        {step}
+                                    </li>
+                                ))}
+                            </ol>
+                        </div>
                     </div>
                 </div>
             </div>
-        </div>
+        </>
     );
 };
 

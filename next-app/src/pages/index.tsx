@@ -1,10 +1,10 @@
 import React, { useEffect, useState } from 'react';
-import type { GetServerSideProps } from "next";
 import Head from 'next/head'
 import Image from 'next/image'
 import styles from '../styles/Home.module.css'
 import RecipeCard from '@pages/RecipeCard/RecipeCard'
 
+// Gets the host name from the context in order to fetch the data from the correct host
 export const getServerSideProps = (context) => {
     const host = context.req.headers.host?.split(':')[0] || 'localhost'
     return {
@@ -15,33 +15,78 @@ export const getServerSideProps = (context) => {
 const Home = ({ host }) => {
     const [recipes, setRecipes] = useState([])
 
-    async function getData() {
-        const res = await fetch('http://' + host + ':8080/api/recipes')
-        // The return value is *not* serialized
-        // You can return Date, Map, Set, etc.
-    
-        if (!res.ok) {
-            // This will activate the closest `error.js` Error Boundary
-            throw new Error('Failed to fetch data')
-        }
-    
-        return res.json()
-    }
-
     useEffect(() => {
-        getData()
+        getRecipes()
             .then(data => setRecipes(data))
             .catch(err => console.error(err))
     }, [])
 
+    useEffect(()=> {
+        console.log(recipes)
+    },[recipes])
+
+    async function getRecipes() {
+        const res = await fetch('http://' + host + ':8080/api/recipes')
+
+        if (!res.ok) {
+            // This will activate the closest `error.js` Error Boundary
+            throw new Error('Failed to fetch recipes')
+        }
+
+        return res.json()
+    }
+
+    async function deleteRecipe(id) {
+        const res = await fetch('http://' + host + ':8080/api/recipes/' + id, {
+            method: 'DELETE'
+        })
+
+        if (!res.ok) {
+            // This will activate the closest `error.js` Error Boundary
+            throw new Error('Failed to delete recipe')
+        }
+
+        return res.json()
+    }
+
+    const handleDeleteRecipe = async () => {
+        await deleteRecipe(20)
+            .catch(err => console.error(err))
+        await getRecipes()
+            .then(data => setRecipes(data))
+            .catch(err => console.error(err))
+    }
+
+    const DeleteRecipeModal = () => {
+        return (
+            <div className="modal fade" id="deleteRecipeModal" tabIndex={-1} aria-labelledby="deleteRecipeModalLabel" aria-hidden="true">
+                <div className="modal-dialog">
+                    <div className="modal-content">
+                        <div className="modal-header bg-danger text-white">
+                            <h5 className="modal-title" id="deleteModalLabel">Delete Recipe</h5>
+                            <button type="button" className="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                        </div>
+                        <div className="modal-body text-center">
+                            <p>Are you sure you want to delete this recipe?</p>
+                        </div>
+                        <div className="modal-footer">
+                            <button type="button" className="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
+                            <button type="button" className="btn btn-danger" data-bs-dismiss="modal" onClick={handleDeleteRecipe}>Delete</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        )
+    }
+
     return (
         <div className={styles.container}>
             <Head>
-                <meta name="viewport" content="width=device-width, initial-scale=1"/>
+                <meta name="viewport" content="width=device-width, initial-scale=1" />
                 <title>Create Next app</title>
                 <link rel="icon" href="/favicon.ico" />
             </Head>
-            
+
             {/* Main container */}
             <div className="container">
                 {/* Title */}
@@ -60,10 +105,11 @@ const Home = ({ host }) => {
                     </div>
                     <div className="container-fluid w-75 p-0">
                         {recipes.map((recipe, index) => (
-                            <RecipeCard key={index} recipe={recipe} />
+                            <RecipeCard host={host} key={index} recipe={recipe} />
                         ))}
                     </div>
                 </div>
+                <DeleteRecipeModal />
             </div>
 
             <footer className={styles.footer}>

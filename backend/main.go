@@ -10,7 +10,7 @@ import (
 )
 
 type Recipe struct {
-	ID          uint   `gorm:"primaryKey"`
+	Id          uint   `gorm:"primaryKey"`
 	Name        string `gorm:"not null"`
 	Description string
 	Ingredients string
@@ -34,6 +34,12 @@ func main() {
 		var recipes []Recipe
 		db.Find(&recipes)
 		c.JSON(http.StatusOK, recipes)
+	})
+
+	r.DELETE("/api/recipes/:id", func(c *gin.Context) {
+		id := c.Param("id")
+		db.Delete(&Recipe{}, id)
+		c.JSON(http.StatusOK, gin.H{"message": "Recipe deleted"})
 	})
 
 	r.Run(":8080")
