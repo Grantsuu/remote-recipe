@@ -71,7 +71,7 @@ const RecipeCard: React.FC<RecipeCardProps> = ({ host, recipe, recipeUpdates, se
                         </div>
                         <div className="modal-footer">
                             <button type="button" className="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
-                            <button type="button" className="btn btn-danger" data-bs-dismiss="modal" onClick={()=>{setIsShown(false)}}>Delete</button>
+                            <button type="button" className="btn btn-danger" data-bs-dismiss="modal" onClick={() => { setIsShown(false) }}>Delete</button>
                         </div>
                     </div>
                 </div>
@@ -82,10 +82,10 @@ const RecipeCard: React.FC<RecipeCardProps> = ({ host, recipe, recipeUpdates, se
     return (
         <AnimatePresence>
             {isShown && <motion.div
-                initial={{ opacity: 1}}
-                exit={{ opacity: 0}}
+                initial={{ opacity: 1 }}
+                exit={{ opacity: 0 }}
                 transition={{ duration: 0.25 }}
-                onAnimationComplete={()=>{
+                onAnimationComplete={() => {
                     handleDeleteRecipe()
                 }}
             >
