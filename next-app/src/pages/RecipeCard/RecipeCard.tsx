@@ -3,9 +3,9 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { IconProp } from '@fortawesome/fontawesome-svg-core'
 import { faPenToSquare, faXmark } from '@fortawesome/free-solid-svg-icons'
 import { AnimatePresence, motion } from "framer-motion"
+import { Handlers } from "@pages/index";
 
 interface RecipeCardProps {
-    host: string;
     recipe: {
         Id: number;
         Name: string;
@@ -13,11 +13,10 @@ interface RecipeCardProps {
         Ingredients: string;
         Directions: string;
     };
-    recipeUpdates: number;
-    setRecipeUpdates: (n: number) => void;
+    handlers: Handlers
 }
 
-const RecipeCard: React.FC<RecipeCardProps> = ({ host, recipe, recipeUpdates, setRecipeUpdates }) => {
+const RecipeCard: React.FC<RecipeCardProps> = ({ recipe, handlers }) => {
     const [isShown, setIsShown] = useState(true);
 
     const ingredientsArray: string[] = recipe.Ingredients.split(",");
@@ -37,24 +36,6 @@ const RecipeCard: React.FC<RecipeCardProps> = ({ host, recipe, recipeUpdates, se
                 </div>
             </li>
         )
-    }
-
-    async function deleteRecipe(id) {
-        const res = await fetch('http://' + host + ':8080/api/recipes/' + id, {
-            method: 'DELETE'
-        })
-
-        if (!res.ok) {
-            // This will activate the closest `error.js` Error Boundary
-            throw new Error('Failed to delete recipe')
-        }
-
-        return res.json()
-    }
-
-    const handleDeleteRecipe = async () => {
-        await deleteRecipe(recipe.Id)
-            .catch(err => console.error(err))
     }
 
     const DeleteRecipeModal = () => {
@@ -86,7 +67,7 @@ const RecipeCard: React.FC<RecipeCardProps> = ({ host, recipe, recipeUpdates, se
                 exit={{ opacity: 0 }}
                 transition={{ duration: 0.25 }}
                 onAnimationComplete={() => {
-                    handleDeleteRecipe()
+                    handlers.handleDeleteRecipe(recipe.Id)
                 }}
             >
                 <div className="container-fluid mb-4" id={"recipe-card-" + recipe.Id}>

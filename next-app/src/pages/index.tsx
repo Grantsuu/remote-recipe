@@ -12,6 +12,10 @@ export const getServerSideProps = (context) => {
     }
 }
 
+export interface Handlers {
+    handleDeleteRecipe: (id: number) => void;
+}
+
 const Home = ({ host }) => {
     const [recipes, setRecipes] = useState([])
     const [recipeUpdates, setRecipeUpdates] = useState(0)
@@ -31,6 +35,24 @@ const Home = ({ host }) => {
         }
 
         return res.json()
+    }
+
+    async function deleteRecipe(id) {
+        const res = await fetch('http://' + host + ':8080/api/recipes/' + id, {
+            method: 'DELETE'
+        })
+
+        if (!res.ok) {
+            // This will activate the closest `error.js` Error Boundary
+            throw new Error('Failed to delete recipe')
+        }
+
+        return res.json()
+    }
+
+    const handleDeleteRecipe = async (id: number) => {
+        await deleteRecipe(id)
+            .catch(err => console.error(err))
     }
 
     return (
@@ -59,7 +81,7 @@ const Home = ({ host }) => {
                     </div>
                     <div className="container-fluid w-75 p-0">
                         {recipes.map((recipe, index) => (
-                            <RecipeCard key={index} host={host} recipe={recipe} recipeUpdates={recipeUpdates} setRecipeUpdates={setRecipeUpdates} />
+                            <RecipeCard key={index} recipe={recipe} handlers={{handleDeleteRecipe: handleDeleteRecipe}} />
                         ))}
                     </div>
                 </div>
