@@ -53,7 +53,6 @@ const RecipeCard: React.FC<RecipeCardProps> = ({ host, recipe, recipeUpdates, se
     }
 
     const handleDeleteRecipe = async () => {
-        console.log("Deleting recipe with id: " + recipe.Id);
         await deleteRecipe(recipe.Id)
             .catch(err => console.error(err))
     }
@@ -72,7 +71,7 @@ const RecipeCard: React.FC<RecipeCardProps> = ({ host, recipe, recipeUpdates, se
                         </div>
                         <div className="modal-footer">
                             <button type="button" className="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
-                            <button type="button" className="btn btn-danger" data-bs-dismiss="modal">Delete</button>
+                            <button type="button" className="btn btn-danger" data-bs-dismiss="modal" onClick={()=>{setIsShown(false)}}>Delete</button>
                         </div>
                     </div>
                 </div>
@@ -95,7 +94,7 @@ const RecipeCard: React.FC<RecipeCardProps> = ({ host, recipe, recipeUpdates, se
                         <div className="card-header d-flex justify-content-between align-items-center">
                             <h4 className="my-0">{recipe.Name}</h4>
                             <div className="ml-auto">
-                                <button type="button" className="btn btn-lg" onClick={()=>{setIsShown(false)}}>
+                                <button type="button" className="btn btn-lg">
                                     <FontAwesomeIcon icon={faPenToSquare as IconProp} />
                                 </button>
                                 <button type="button" className="btn btn-lg" data-bs-toggle="modal" data-bs-target={"#deleteRecipeModal" + recipe.Id}>
